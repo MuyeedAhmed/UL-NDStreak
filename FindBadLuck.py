@@ -25,6 +25,7 @@ def load_and_prepare_data(file_path, target_column):
     df = pd.read_csv(file_path)
     unique_values = df[target_column].nunique()
     data = df.drop(columns=[target_column])
+    data = data.dropna()
     return data, unique_values
 
 def process_datasets(algo, input_folder, target_column, restarts = 100):
@@ -47,6 +48,7 @@ def process_datasets(algo, input_folder, target_column, restarts = 100):
         if not file_name.endswith('.csv'):
             continue
         if file_name in done_files:
+            print("Already done, skipping.")
             continue
 
         file_size_kb = os.path.getsize(file_path) / 1024
@@ -84,7 +86,7 @@ def process_datasets(algo, input_folder, target_column, restarts = 100):
                 elif algo == "IF":
                     iso_forest = IsolationForest().fit(data)
                     l2 = iso_forest.predict(data)
-                    
+
                 ari = adjusted_rand_score(l1, l2)
                 if ari == 1:
                     streak += 1
