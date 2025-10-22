@@ -6,6 +6,7 @@ import numpy as np
 import os
 import sys
 from sklearn.cluster import KMeans
+from sklearn.ensemble import IsolationForest
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
@@ -22,8 +23,9 @@ warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
 def load_and_prepare_data(file_path, target_column):
     df = pd.read_csv(file_path)
+    unique_values = df[target_column].nunique()
     data = df.drop(columns=[target_column])
-    return data
+    return data, unique_values
 
 def process_datasets(algo, input_folder, target_column, restarts = 100):
     if os.path.exists(f"{algo}.csv"):
@@ -41,31 +43,48 @@ def process_datasets(algo, input_folder, target_column, restarts = 100):
     for file_name in os.listdir(input_folder):
         print(file_name)
         file_path = os.path.join(input_folder, file_name)
-        # if file_name != "analcatdata_lawsuit.csv":
-        #     continue
+
         if not file_name.endswith('.csv'):
             continue
         if file_name in done_files:
             continue
+
         file_size_kb = os.path.getsize(file_path) / 1024
         if file_size_kb > 100:
             continue
+
         max_streak = 0
         streak = 0
         try:
-            data = load_and_prepare_data(file_path, target_column)
+            data, unique_values = load_and_prepare_data(file_path, target_column)
+            aris = []
+            
             t0 = time.time()
             if algo == "AP":
-                clustering = AffinityPropagation().fit(data)
+                clustering = AffinityPropagation().fit(data)            
+                l1 = clustering.labels_
+            elif algo == "KMeans":
+                kmeans = KMeans(n_clusters=unique_values).fit(data)
+                l1 = kmeans.labels_
+            elif algo == "IF":
+                iso_forest = IsolationForest().fit(data)
+                l1 = iso_forest.predict(data)
+
             print("Time", time.time()-t0)
             if time.time()-t0 > 1:
+                print("Skipping due to time limit")
                 continue
-            l1 = clustering.labels_
-            aris = []
             for i in range(restarts):
                 if algo == "AP":
                     clustering = AffinityPropagation().fit(data)
-                l2 = clustering.labels_
+                    l2 = clustering.labels_
+                elif algo == "KMeans":
+                    kmeans = KMeans(n_clusters=unique_values).fit(data)
+                    l2 = kmeans.labels_
+                elif algo == "IF":
+                    iso_forest = IsolationForest().fit(data)
+                    l2 = iso_forest.predict(data)
+                    
                 ari = adjusted_rand_score(l1, l2)
                 if ari == 1:
                     streak += 1
