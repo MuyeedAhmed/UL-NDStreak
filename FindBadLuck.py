@@ -29,15 +29,15 @@ def load_and_prepare_data(file_path, target_column):
     return data, unique_values
 
 def process_datasets(algo, input_folder, target_column, restarts = 100):
-    if os.path.exists(f"{algo}.csv"):
+    if os.path.exists(f"Output/{algo}.csv"):
         done_files = set()
-        with open(f"{algo}.csv", 'r') as csvfile:
+        with open(f"Output/{algo}.csv", 'r') as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
                 done_files.add(row[0])
     else:
         done_files = set()
-        with open(f"{algo}.csv", 'w', newline='') as csvfile:
+        with open(f"Output/{algo}.csv", 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(['Dataset'] + [f'Restart_{i+1}' for i in range(restarts)] + ['Streak'])
 
@@ -99,7 +99,7 @@ def process_datasets(algo, input_folder, target_column, restarts = 100):
                 aris.append(ari)
                 l1 = l2
             # print(file_name, aris)
-            with open(f"{algo}.csv", 'a', newline='') as csvfile:
+            with open(f"Output/{algo}.csv", 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow([file_name] + aris + [max_streak])
         except Exception as e:
