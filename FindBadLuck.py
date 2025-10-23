@@ -52,7 +52,7 @@ def process_datasets(algo, input_folder, target_column, restarts = 100):
             continue
 
         file_size_kb = os.path.getsize(file_path) / 1024
-        if file_size_kb > 100:
+        if file_size_kb > 500:
             continue
 
         max_streak = 0
@@ -73,7 +73,7 @@ def process_datasets(algo, input_folder, target_column, restarts = 100):
                 l1 = iso_forest.predict(data)
 
             print("Time", time.time()-t0)
-            if time.time()-t0 > 1:
+            if time.time()-t0 > 5:
                 print("Skipping due to time limit")
                 continue
             for i in range(restarts):
