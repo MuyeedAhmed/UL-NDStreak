@@ -52,7 +52,7 @@ def process_datasets(algo, input_folder, target_column, restarts = 100):
             continue
 
         file_size_kb = os.path.getsize(file_path) / 1024
-        if file_size_kb > 500:
+        if file_size_kb > 2000:
             continue
 
         max_streak = 0
