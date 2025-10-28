@@ -16,7 +16,7 @@ import csv
 
 
 def plot_abs_time(df, output_path):
-    plt.figure(figsize=(6, 4))
+    plt.figure(figsize=(6, 3))
 
     
     plt.plot(df['n_samples'], df["A2"], marker='o', color="green", label="Discrete")
