@@ -16,17 +16,18 @@ import csv
 
 
 def plot_abs_time(df, output_path):
-    plt.figure(figsize=(6, 3))
+    plt.figure(figsize=(7, 2))
 
     
-    plt.plot(df['n_samples'], df["A2"], marker='o', color="green", label="Discrete")
+    plt.plot(df['n_samples'], df["A2"], marker='o', lw=3, markersize=8, color="green", label="Discrete")
     # plt.plot(df['n_samples'], df["A5"], marker='s', label=r"$\{-\epsilon, -\frac{\epsilon}{2}, 0, \frac{\epsilon}{2}, +\epsilon\}$")
-    plt.plot(df['n_samples'], df["All"], marker='^', color="red", label="Continuous")
+    plt.plot(df['n_samples'], df["All"], marker='^', lw=3, markersize=8, color="red", label="Continuous")
 
-    plt.xlabel('n_samples')
-    plt.ylabel('Time (seconds)')
-
-    plt.legend()
+    plt.xlabel('# Points', fontsize=20)
+    plt.ylabel('Time (s)', fontsize=20)
+    plt.xticks(fontsize=16)
+    plt.yticks(fontsize=16)
+    plt.legend(fontsize=20)
     # plt.grid(True)
     plt.savefig(output_path, format='pdf', bbox_inches='tight')
     plt.close()

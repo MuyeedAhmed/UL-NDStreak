@@ -37,8 +37,8 @@ if __name__ == "__main__":
     IF_streak_values = IF_filtered['Streak'].values
 
     AP_stats = {
-        "0-2" : np.sum((AP_streak_values >= 0) & (AP_streak_values <= 2)),
-        "3-10" : np.sum((AP_streak_values >= 3) & (AP_streak_values <= 10)),
+        "1" : np.sum((AP_streak_values == 0)),
+        "2-10" : np.sum((AP_streak_values >= 1) & (AP_streak_values <= 10)),
         "11-20" : np.sum((AP_streak_values >= 11) & (AP_streak_values <= 20)),
         "21-30" : np.sum((AP_streak_values >= 21) & (AP_streak_values <= 30)),
         "31-50" : np.sum((AP_streak_values >= 31) & (AP_streak_values <= 50)),
@@ -48,8 +48,8 @@ if __name__ == "__main__":
     print("AP_stats:", AP_stats)
 
     KMeans_stats = {
-        "0-2" : np.sum((KMeans_streak_values >= 0) & (KMeans_streak_values <= 2)),
-        "3-10" : np.sum((KMeans_streak_values >= 3) & (KMeans_streak_values <= 10)),
+        "1" : np.sum((KMeans_streak_values == 0)),
+        "2-10" : np.sum((KMeans_streak_values >= 1) & (KMeans_streak_values <= 10)),
         "11-20" : np.sum((KMeans_streak_values >= 11)   & (KMeans_streak_values <= 20)),
         "21-30" : np.sum((KMeans_streak_values >= 21)   & (KMeans_streak_values <= 30)),
         "31-50" : np.sum((KMeans_streak_values >= 31)   & (KMeans_streak_values <= 50)),
@@ -59,8 +59,8 @@ if __name__ == "__main__":
     print("KMeans_stats:", KMeans_stats)
 
     IF_stats = {
-        "0-2" : np.sum((IF_streak_values >= 0) & (IF_streak_values <= 2)),
-        "3-10" : np.sum((IF_streak_values >= 3) & (IF_streak_values <= 10)),
+        "1" : np.sum((IF_streak_values == 0)),
+        "2-10" : np.sum((IF_streak_values >= 1) & (IF_streak_values <= 10)),
         "11-20" : np.sum((IF_streak_values >= 11)   & (IF_streak_values <= 20)),
         "21-30" : np.sum((IF_streak_values >= 21)   & (IF_streak_values <= 30)),
         "31-50" : np.sum((IF_streak_values >= 31)   & (IF_streak_values <= 50)),
